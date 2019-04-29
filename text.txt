@@ -1,1 +1,3 @@
-this is a test git push 
+The Project task is to have a dobot copy a drawing made by a user in real time. 
+This project will requre the use of the dobot with the pen holder and the RGB-D camera from computer vision. 
+
