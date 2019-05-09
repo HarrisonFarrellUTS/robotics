@@ -1,19 +1,25 @@
 classdef ImageThreshold < handle
     properties
-        imaqhwinfo ('winvideo')
-        input = startCamera();
-        maskedImagePlayer = vision.VideoPlayer
-        binaryImagePlayer = vision.VideoPlayer
-        image
+        input;
+        maskedImagePlayer;
+        binaryImagePlayer;
+        image;
     end
     methods
+        function self = ImageThreshold
+            imaqhwinfo ('winvideo');
+            self.input = startCamera(self);
+            self.maskedImagePlayer = vision.VideoPlayer
+            self.binaryImagePlayer = vision.VideoPlayer
+        end
         
         function TakeSnapshot(self)
-            self.image = takeSnapshot(self.input);   
+            self.image = takeSnapshot(self.input);
         end
         
         %% start camera
         function feed = startCamera(self)
+            camlist = webcamlist;
             cam = webcam(1)
             feed = cam;
             % start(feed);

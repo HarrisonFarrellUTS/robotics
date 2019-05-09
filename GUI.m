@@ -52,16 +52,18 @@ function GUI_OpeningFcn(hObject, eventdata, handles, varargin)
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to GUI (see VARARGIN)
 
-clc
-close all
-clear all
-clear
-closepreview
 
 imageProcessor = ImageThreshold;
 
 
+imageProcessor.TakeSnapshot();
+    
+ I = imageProcessor.image;
 
+ axes(handles.Original_Image);
+ imshow(I);
+ axes(handles.Processed_Image);
+ imshow(I);
 
 % Choose default command line output for GUI
 handles.output = hObject;
