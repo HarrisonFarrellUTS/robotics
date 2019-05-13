@@ -56,12 +56,12 @@ function GUI_OpeningFcn(hObject, eventdata, handles, varargin)
 imageProcessor = ImageThreshold;
 
 
-imageProcessor.TakeSnapshot();
+imageProcessor.takeSnapshot();
     
  I = imageProcessor.image;
 
  axes(handles.Original_Image);
- imshow(I);
+ imshow(I	 
  axes(handles.Processed_Image);
  imshow(I);
 

@@ -13,10 +13,6 @@ classdef ImageThreshold < handle
             self.binaryImagePlayer = vision.VideoPlayer
         end
         
-        function TakeSnapshot(self)
-            self.image = takeSnapshot(self.input);
-        end
-        
         %% start camera
         function feed = startCamera(self)
             camlist = webcamlist;
@@ -24,11 +20,10 @@ classdef ImageThreshold < handle
             feed = cam;
             % start(feed);
             preview(feed);
-        end
-        
+        end      
         %% take snapshot
-        function im = takeSnapshot(vid)
-            im = snapshot(vid);
+        function im = takeSnapshot(self)
+            im = snapshot(self.input);
         end
         
         function binaryImage = thresholdImage(image, maskedImagePlayer, binaryImagePlayer)
@@ -80,10 +75,7 @@ classdef ImageThreshold < handle
             
             
         end
-        
-        
-        
-        
+               
     end
     
 end
