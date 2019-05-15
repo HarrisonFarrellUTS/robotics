@@ -50,11 +50,16 @@ classdef ImageThreshold < handle
         end
         %% Errode and dilate image
         function processedImage = erodeAndDilate(self, image)
-            SE = strel('square',5);
+            SE = strel('disk',5,8);
+            image = imdilate(image,SE);
+                 
+            SE = strel('square',2);
+            processedImage = imerode(image,SE);
+            
+            SE = strel('disk',20,8);
             image = imdilate(image,SE);
             
-            SE = strel('square',3);
-            processedImage = imerode(image,SE);
+            
         end
         
     end
