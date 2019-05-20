@@ -13,6 +13,4 @@ hold on;
 %%%%%%%%%%%%%%%%%%%%%
 %creation of the one robot
 location = transl(0,0,0); 
-dobot = dobotClass(location); 
-
-%% 
+dobot = 
