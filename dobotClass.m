@@ -50,7 +50,16 @@ function gotoPoint(self,location,steps)
     d = sqrt(x^2+y^2); %the lenght to the endpoint in 3D space
     t1 = atan(z/l); %The angle between line D and sideTwo
     t2 = acos((sideTwo^2 + d^2 - sideThree^2)/ 2*sideTwo*sideThree)
-end  
+end 
+%% Calculate Trajectory
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function angleMatrix = CalculateTrajectory(self,robotA_q1,robotB_q2,steps)
+            scalar = lspb(0,1,steps);           
+            angleMatrix = nan(steps,6);        
+    for i = 1:steps
+        angleMatrix(i,:) = (1-scalar(i))*robotA_q1 + scalar(i)*robotB_q2;
+    end
+end
 
     end
 end
