@@ -16,3 +16,7 @@ location = transl(0,0,0);
 dobot = dobotClass(location); 
 
 %% 
+dobot.PlotAndColourRobot(location);
+%dobot.PlotRobot(location);
+dobot.model.teach();
+%camlight();

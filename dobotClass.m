@@ -2,8 +2,8 @@ classdef dobotClass < handle
     properties
         model;
         %simulation environment size
-        %workspace = [-0.5 2 -0.5 -0.5 2]; 
-        qNeutral = [0,0,0,0,0];
+        workspace = [-0.5 2 -0.5 2 -0.5 2]; 
+        qNeutral = [0,deg2rad(45),deg2rad(90),deg2rad(45),0];
     end
     
     methods    
@@ -45,17 +45,17 @@ classdef dobotClass < handle
 % Given a robot index, add the glyphs (vertices and faces) and
 % colour them in if data is available 
 function PlotAndColourRobot(self, location)%robot,workspace)
-    for linkIndex = 0:self.model.n-1
+    for linkIndex = 0:self.model.n
         [ faceData, vertexData, plyData{linkIndex + 1} ] = plyread(['dobotLink',num2str(linkIndex),'.ply'],'tri'); %#ok<AGROW>
         self.model.faces{linkIndex + 1} = faceData;
         self.model.points{linkIndex + 1} = vertexData;
     end
-    % Display robot
-    self.model.base = location; 
-    self.model.plot3d(zeros(1,self.model.n),'noarrow','workspace',self.workspace);
-    if isempty(findobj(get(gca,'Children'),'Type','Light'))
-        camlight
-    end  
+        % Display robot
+        self.model.base = location; 
+        self.model.plot3d(self.qNeutral,'noarrow','workspace',self.workspace); %zeros(1,self.model.n)
+        if isempty(findobj(get(gca,'Children'),'Type','Light'))
+            camlight
+        end  
     self.model.delay = 0;
     % Try to correctly colour the arm (if colours are in ply file data)
     for linkIndex = 0:self.model.n
