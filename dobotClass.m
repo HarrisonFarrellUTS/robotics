@@ -2,7 +2,7 @@ classdef dobotClass < handle
     properties
         model;
         %simulation environment size
-        workspace = [-0.5 2 -0.5 2 -0.5 2]; 
+        workspace = [-0.5 0.5 -0.5 0.5 -0.5 0.5]; 
         qNeutral = [0,deg2rad(45),deg2rad(90),deg2rad(45),0];
     end
     
