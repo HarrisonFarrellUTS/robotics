@@ -111,9 +111,13 @@ function requirement(self)
     for i = 1:338
         q1 = dobot_q(i,1);
         q2 = dobot_q(i,2);
-        q3 = dobot_q(i,3);
-        q4 = pi - (q2 + q3); 
-        qMove = [q1,q2,q3,q4]; 
+        q3REAL = dobot_q(i,3);
+        q4 = pi - (q2 + q3REAL);
+        
+        q3MODEL = pi/2 - q2 + q3REAL; 
+        q4MODEL = pi - q2 - q3MODEL; 
+        
+        qMove = [q1,q2,q3REAL,q4]; 
        self.simulation.animate(qMove);
        drawnow();
        pause(0.05); 
