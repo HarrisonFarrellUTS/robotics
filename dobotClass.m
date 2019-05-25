@@ -2,17 +2,14 @@ classdef dobotClass < handle
     properties
         model;
         simulation; 
-        workspace = [-0.5 0.5 -0.5 0.5 -0.5 0.5]; 
+        workspace = [-0.5 0.5 -0.5 0.5 -0.7814 0.5]; 
         qNeutral = [0,deg2rad(45),deg2rad(90),deg2rad(45),0];
         qSimulation = [0,deg2rad(45),deg2rad(90),deg2rad(45)];
     end
     methods    
 %% Constructor
     function self = dobotClass(location)
-        self.CreateDobot(location); 
-        %self.plotModel3d(location)
-        %self.PlotRobot(location); 
-        %self.plotSimulation3d(location);
+        CreateDobot(self,location)        
     end
 
 %% Creating the Dobot both model with attachment and simulation
@@ -104,20 +101,21 @@ function plotSimulation3d(self, location)
     end
 end 
 %% Dobot Requirement
-function requirement(self)
+function requirement(self)    
     location = transl(0,0,0); 
+    self.CreateDobot(location); 
     plotSimulation3d(self, location)
     load dobot_q
     for i = 1:338
-        q1 = dobot_q(i,1);
-        q2 = dobot_q(i,2);
+        q1REAL = dobot_q(i,1);
+        q2REAL = dobot_q(i,2);
         q3REAL = dobot_q(i,3);
-        q4 = pi - (q2 + q3REAL);
+        q4REAL = pi - (q2REAL + q3REAL);
         
-        q3MODEL = pi/2 - q2 + q3REAL; 
-        q4MODEL = pi - q2 - q3MODEL; 
+        q3MODEL = pi/2 - q2REAL + q3REAL; 
+        q4MODEL = pi - (q2REAL + q3MODEL); 
         
-        qMove = [q1,q2,q3REAL,q4]; 
+        qMove = [q1REAL,q2REAL,q3MODEL,q4MODEL]; 
        self.simulation.animate(qMove);
        drawnow();
        pause(0.05); 
@@ -125,13 +123,15 @@ function requirement(self)
 end
 %% goto Point
 function goTo(self,location,steps)  
+    
     a2 = 0.1393;
     a3 = 0.16193;
     x = location(1,4)
     y = location(2,4)
     z = location(3,4)    
     
-    robotJoints = self.model.getpos()                               
+    robotJoints = self.model.getpos()  
+    ikconJoints = self.model.ikcon(location); 
 
     l = sqrt(x^2 + y^2); 
     d = sqrt(l^2 + z^2);
@@ -140,23 +140,22 @@ function goTo(self,location,steps)
     t2 = acos(( (a2^2) + (d^2) - (a3^2) )/(2*d*a2));
     
     a = t1 + t2;
-    ad = rad2deg(a)
     b = acos((a2^2) + (a3^2) - (d^2)/(2*a2*a3));
-    bd = rad2deg(b)
     
-    q1r = atan2(y,x)
-    q2r = pi/2 - a
-    q3r = pi - b - a
-    q4r = pi - q3r - q2r
-    q5r = 0
+    q1REAL = atan2(y,x);
+    q2REAL = pi/2 - a;
+    q3REAL = pi - (a + b);
+    q4REAL = pi/2 - (q3REAL);
+    q5 = 0;
     
-    q1d = rad2deg(q1r) 
-    q2d = rad2deg(q2r)
-    q3d = rad2deg(q3r) 
-    q4d = rad2deg(q4r)
-    q5d = rad2deg(q5r)
-    
-    newJoints = [q1d,q2d,q3d,q4d,q5d]
+    q3MODEL = pi/2 - q2REAL + q3REAL; 
+    q4MODEL = pi - (q2REAL + q3MODEL);
+        
+    newJointsREAL = [q1REAL,q2REAL,q3REAL,q4REAL,q5];
+    newJointsMODEL = [q1REAL, q2REAL, q3MODEL, q4MODEL, q5];
+    real = rad2deg(newJointsREAL)
+    model = rad2deg(newJointsMODEL)
+    ikcon = rad2deg(ikconJoints)
 end 
     end
 end

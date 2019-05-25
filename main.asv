@@ -9,15 +9,17 @@ clear
 clc
 close all;
 hold on;
+%% Creating the environment 
+table = environment(0,0,0,0); 
+table_height = 0.; 
 %% Ploting the robots
 %%%%%%%%%%%%%%%%%%%%%
 %creation of the one robot
-location = transl(0,0,0); 
+location = transl(0,0,0.7814); 
 dobot = dobotClass(location); 
 point = transl(0.2,0,0); 
 %dobot.requirement(); 
-dobot.plotModel3d(location);
-safety = environment(0,location);
+%dobot.plotModel3d(location); 
 
 %% 
 
