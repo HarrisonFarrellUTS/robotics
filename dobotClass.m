@@ -124,25 +124,32 @@ end
 %% goto Point
 function goTo(self,location,steps)  
     
+    location = location * transl(0.06,0,0.06)
+    %robot arm lengths
     a2 = 0.1393;
     a3 = 0.16193;
-    x = location(1,4)
-    y = location(2,4)
-    z = location(3,4)    
+    %Point location x,y,z
+    Px = location(1,4);
+    Py = location(2,4);
+    Pz = location(3,4);
+    %Robot location x,y,z
+    Rx = self.model.base(1,4);
+    Ry = self.model.base(2,4);
+    Rz = self.model.base(3,4);
     
     robotJoints = self.model.getpos()  
-    ikconJoints = self.model.ikcon(location); 
+    ikconJoints = self.model.ikcon(location);
 
-    l = sqrt(x^2 + y^2); 
-    d = sqrt(l^2 + z^2);
+    l = sqrt((Px- Rx)^2 + (Py- Ry)^2); 
+    d = sqrt(l^2 + (Pz- Rz)^2);
     
-    t1 = atan(z/l); 
+    t1 = atan((Pz- Rz)/l); 
     t2 = acos(( (a2^2) + (d^2) - (a3^2) )/(2*d*a2));
     
     a = t1 + t2;
     b = acos((a2^2) + (a3^2) - (d^2)/(2*a2*a3));
     
-    q1REAL = atan2(y,x);
+    q1REAL = atan2((Py-Ry),(Px-Rx));
     q2REAL = pi/2 - a;
     q3REAL = pi - (a + b);
     q4REAL = pi/2 - (q3REAL);
@@ -156,6 +163,9 @@ function goTo(self,location,steps)
     real = rad2deg(newJointsREAL)
     model = rad2deg(newJointsMODEL)
     ikcon = rad2deg(ikconJoints)
+    
+    
+    
 end 
     end
 end

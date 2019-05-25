@@ -14,10 +14,12 @@ hold on;
 %creation of the one robot
 location = transl(0,0,0); 
 dobot = dobotClass(location); 
-point = transl(0.2,0,0); 
+point = transl(0.2,0.1,0); 
 %dobot.requirement(); 
 dobot.plotModel3d(location);
-safety = environment(99,location);
+safety = environment(location);
+dobot.model.teach();
+dobot.goTo(point)
 
 %% 
 
