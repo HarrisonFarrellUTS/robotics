@@ -17,7 +17,7 @@ dobot = dobotClass(location);
 point = transl(0.2,0,0); 
 %dobot.requirement(); 
 dobot.plotModel3d(location);
-safety = environment(0,location);
+safety = environment(99,location);
 
 %% 
 
