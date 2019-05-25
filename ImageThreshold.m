@@ -58,8 +58,6 @@ classdef ImageThreshold < handle
             
             SE = strel('disk',20,8);
             image = imdilate(image,SE);
-            
-            
         end
         
     end

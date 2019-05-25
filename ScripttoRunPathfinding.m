@@ -1,8 +1,11 @@
 
 
-image = imread('WorkingImage.jpg');
+image = imread('image.JPEG');
 
-x = pathFinder();
+x = pathFinder()
 
 x.loadimage(image)
+
 x.findPath
+
+stack = x.coordStack;

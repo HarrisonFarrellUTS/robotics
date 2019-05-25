@@ -26,6 +26,9 @@ maskedImagePlayer(image);
 binaryImagePlayer(newimage);
 erodeImagePlayer(processsedImage);
 
+imwrite(processsedImage,'image.jpeg')
+pause
+
 end
 
 
