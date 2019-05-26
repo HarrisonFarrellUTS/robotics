@@ -9,17 +9,27 @@ clear
 clc
 close all;
 hold on;
-%% Ploting the robots
-%%%%%%%%%%%%%%%%%%%%%
-%creation of the one robot
-location = transl(0,0,0); 
-dobot = dobotClass(location); 
-point = transl(0.2,0.1,0); 
-%dobot.requirement(); 
-dobot.plotModel3d(location);
-safety = environment(location);
-dobot.model.teach();
-dobot.goTo(point)
+%% running the requirement movements
+dobot = dobotClass();
+dobot.plotSimulation3d();
+dobot.requirement();
+%% drawing a box
+dobot = dobotClass();
+dobot.plotModel3d();
+environment(dobot.model.base());
+dobot.drawBox();
+
+for i = 0:1:10
+    dobot.drawBox(); 
+end
 
 %% 
 
+% location = transl(0,0,0); 
+% dobot = dobotClass(location); 
+% point = transl(0.2,-0.2,0); 
+%  
+% dobot.plotModel3d(location);
+% safety = environment(location);
+% dobot.model.teach();
+% %dobot.goTo(point)
