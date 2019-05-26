@@ -17,9 +17,8 @@ dobot.requirement();
 dobot = dobotClass();
 dobot.plotModel3d();
 environment(dobot.model.base());
-dobot.drawBox();
 
-for i = 0:1:10
+for i = 0:1:3
     dobot.drawBox(); 
 end
 
