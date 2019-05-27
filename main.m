@@ -49,8 +49,12 @@ PathFinder.findPath;
 
 stack = PathFinder.coordStack;
 
-PathFollwer = pathFollow(stack, width, height, dobot);
+j = transl(0,0,0);
 
+dobot.goto(j,2);
+
+PathFollwer = pathFollow(stack, width, height, dobot);
+    
 PathFollwer.drawStack();
 
 
