@@ -7,6 +7,7 @@ properties
     workspace = [-0.5 0.5 -0.5 0.5 -0.7814 0.5]; 
     qNeutral = [0,deg2rad(45),deg2rad(90),deg2rad(45),0];
     qSimulation = [0,deg2rad(45),deg2rad(90),deg2rad(45)];
+    draw = 0;
 end
     methods    
 %% Constructor
@@ -185,9 +186,11 @@ end
 function lift(self,boolean)     
     if(boolean == true)
         movement = transl(0,0,0.05);
+        self.draw = 0;
     end
     if(boolean == false)
         movement = transl(0,0,-0.05);
+        self.draw = 1;
     end    
         jointAngles = self.model.getpos()
         endEffector = self.model.fkine(jointAngles)
