@@ -13,6 +13,8 @@ classdef pathFollow < handle
             self.coordStack = Stack;
             self.previouslyDrawn = zeros(Width,Height);
             self.Dobot = dobot;
+            self.Width = Width;
+            self.Height = Height;
         end
         function drawStack(self)
             sz = size(self.coordStack);
@@ -25,6 +27,9 @@ classdef pathFollow < handle
                     self.Dobot.lift(true);
                 else
                     if(self.previouslyDrawn(x,y) == 0)
+                        disp('nextPoint');
+                        disp(x);
+                        disp(y);
                         if(self.Dobot.draw == 0)
                             self.Dobot.draw = 1;
                             self.Dobot.lift(false);
