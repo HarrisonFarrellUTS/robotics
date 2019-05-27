@@ -1,12 +1,12 @@
 classdef dobotClass < handle
-    properties
-        model;
-        simulation; 
-        toolOffset = transl(0.06,0,0.065); 
-        workspace = [-0.5 0.5 -0.5 0.5 -0.7814 0.5]; 
-        qNeutral = [0,deg2rad(45),deg2rad(90),deg2rad(45),0];
-        qSimulation = [0,deg2rad(45),deg2rad(90),deg2rad(45)];
-    end
+properties
+    model;
+    simulation; 
+    toolOffset = transl(0.06,0,0.065); 
+    workspace = [-0.5 0.5 -0.5 0.5 -0.7814 0.5]; 
+    qNeutral = [0,deg2rad(45),deg2rad(90),deg2rad(45),0];
+    qSimulation = [0,deg2rad(45),deg2rad(90),deg2rad(45)];
+end
     methods    
 %% Constructor
 function self = dobotClass()
@@ -14,37 +14,35 @@ function self = dobotClass()
     CreateDobot(self,location);    
 end
 %% Creating the Dobot both model with attachment and simulation
-    function CreateDobot(self, location)
-        
-        pause(0.001); 
-        
-        name = ['Dobot',datestr(now,'yyyymmddTHHMMSSFFF')];
-        L1 = Link('d',0.137,'a',0,'alpha',-pi/2,'offset',0,'qlim', deg2rad([-135 135]));
-        L2 = Link('d',0,'a',0.1393,'alpha',0,'offset',-pi/2, 'qlim', deg2rad([5 80]));     
-        L3 = Link('d',0,'a',0.16193,'alpha',0,'offset',0, 'qlim', deg2rad([15 170])); %pi/2 –q2 actual offset    
-        L4 = Link('d',0,'a',0.0597,'alpha',pi/2,'offset',-pi/2, 'qlim', [-pi/2 pi/2]);     
-        L5 = Link('d',0,'a',0,'alpha',0,'offset',0, 'qlim', deg2rad([-85 85]));       
-        self.model = SerialLink([L1 L2 L3 L4 L5], 'name', name);
-        
-        pause(0.001);
-        
-        name = ['DobotMovementSimulation'];
-        L1 = Link('d',0.137,'a',0,'alpha',-pi/2,'offset',0,'qlim', deg2rad([-135 135]));
-        L2 = Link('d',0,'a',0.1393,'alpha',0,'offset',-pi/2, 'qlim', deg2rad([5 80]));     
-        L3 = Link('d',0,'a',0.16193,'alpha',0,'offset',0, 'qlim', deg2rad([15 170])); %pi/2 –q2 actual offset 
-        L4 = Link('d',0,'a',0.0597,'alpha',pi/2,'offset',-pi/2, 'qlim', [-pi/2 pi/2]); 
-        self.simulation = SerialLink([L1 L2 L3 L4], 'name', name);
-        
-        self.model.base = location;
-        self.simulation.base = location; 
-        
-    end 
+function CreateDobot(self, location)
 
+    pause(0.001); 
+
+    name = ['Dobot',datestr(now,'yyyymmddTHHMMSSFFF')];
+    L1 = Link('d',0.137,'a',0,'alpha',-pi/2,'offset',0,'qlim', deg2rad([-135 135]));
+    L2 = Link('d',0,'a',0.1393,'alpha',0,'offset',-pi/2, 'qlim', deg2rad([5 80]));     
+    L3 = Link('d',0,'a',0.16193,'alpha',0,'offset',0, 'qlim', deg2rad([15 170])); %pi/2 –q2 actual offset    
+    L4 = Link('d',0,'a',0.0597,'alpha',pi/2,'offset',-pi/2, 'qlim', [-pi/2 pi/2]);     
+    L5 = Link('d',0,'a',0,'alpha',0,'offset',0, 'qlim', deg2rad([-85 85]));       
+    self.model = SerialLink([L1 L2 L3 L4 L5], 'name', name);
+
+    pause(0.001);
+
+    name = ['DobotMovementSimulation'];
+    L1 = Link('d',0.137,'a',0,'alpha',-pi/2,'offset',0,'qlim', deg2rad([-135 135]));
+    L2 = Link('d',0,'a',0.1393,'alpha',0,'offset',-pi/2, 'qlim', deg2rad([5 80]));     
+    L3 = Link('d',0,'a',0.16193,'alpha',0,'offset',0, 'qlim', deg2rad([15 170])); %pi/2 –q2 actual offset 
+    L4 = Link('d',0,'a',0.0597,'alpha',pi/2,'offset',-pi/2, 'qlim', [-pi/2 pi/2]); 
+    self.simulation = SerialLink([L1 L2 L3 L4], 'name', name);
+
+    self.model.base = location;
+    self.simulation.base = location;         
+end 
 %% Plot Stick figure of the robot 
-    function PlotRobot(self,location)
+function PlotRobot(self,location)
     self.model.base = location; 
     self.model.plot(self.qNeutral); 
-    end
+end
 %% Plot 3D model with attachment 
 function plotModel3d(self)
     for linkIndex = 0:self.model.n
@@ -100,8 +98,7 @@ end
 %% Calculate Trajectory
 function angleMatrix = CalculateTrajectory(self,initial_q,final_q,steps)
             scalar = lspb(0,1,steps);           
-            angleMatrix = nan(steps,self.model.n);   
-            
+            angleMatrix = nan(steps,self.model.n);               
     for i = 1:steps
         angleMatrix(i,:) = (1-scalar(i))*initial_q + scalar(i)*final_q;
     end
@@ -182,14 +179,12 @@ function lift(self,boolean)
         endEffector = self.model.fkine(jointAngles)
         endEffector = endEffector * movement; 
         NewjointAngles = self.model.ikcon(endEffector);
-        jointMatrix = self.CalculateTrajectory(jointAngles, NewjointAngles, 75);
-        
+        jointMatrix = self.CalculateTrajectory(jointAngles, NewjointAngles, 75);        
     for i = 1:75                                                
        jointMatrix(i,5) = 0; 
        self.model.animate(jointMatrix(i,:)); 
        pause(0.02); 
     end           
 end 
-
     end
 end
