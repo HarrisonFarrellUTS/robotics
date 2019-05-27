@@ -1,7 +1,8 @@
 classdef dobotClass < handle
 properties
     model;
-    simulation; 
+    simulation;
+    eStop = false; 
     toolOffset = transl(0.06,0,0.065); 
     workspace = [-0.5 0.5 -0.5 0.5 -0.7814 0.5]; 
     qNeutral = [0,deg2rad(45),deg2rad(90),deg2rad(45),0];
@@ -12,6 +13,14 @@ end
 function self = dobotClass()
     location = transl(0,0,0);
     CreateDobot(self,location);    
+end
+%% E-stop function
+function stopcheck(self)    
+    if(self.eStop == true)
+       disp('E-stop pressed'); 
+       while(1)
+       end
+    end
 end
 %% Creating the Dobot both model with attachment and simulation
 function CreateDobot(self, location)
@@ -106,14 +115,15 @@ end
 %% Move Robot
 function goto(self,location,steps)     
     location = location * self.toolOffset;
-    robotJoints = self.model.getpos()   
-    newJoints = self.model.ikcon(location) 
+    robotJoints = self.model.getpos();   
+    newJoints = self.model.ikcon(location); 
     jointMatrix = self.CalculateTrajectory(robotJoints, newJoints, steps); 
 
     for i = 1:steps                                                
        jointMatrix(i,5) = 0; 
        self.model.animate(jointMatrix(i,:)); 
        pause(0.02); 
+       self.stopcheck();
     end
 end  
 %% Dobot Requirement
@@ -141,6 +151,7 @@ for i = -0.2:0.005:0.2
     point = point * self.toolOffset;  
     newJoints = self.model.ikcon(point);
     self.model.animate(newJoints);
+    self.drawingSpace()
     pause(0.02);
 end
 for i = 0.1:0.005:0.2
@@ -148,6 +159,7 @@ for i = 0.1:0.005:0.2
     point = point * self.toolOffset;   
     newJoints = self.model.ikcon(point); 
     self.model.animate(newJoints);
+    self.drawingSpace()
     pause(0.02);
 end
 
@@ -156,6 +168,7 @@ for i = 0.2:-0.005:-0.2
     point = point * self.toolOffset;   
     newJoints = self.model.ikcon(point); 
     self.model.animate(newJoints);
+    self.drawingSpace()
     pause(0.02);
 end
 
@@ -164,6 +177,7 @@ for i = 0.2:-0.005:0.1
     point = point * self.toolOffset;  
     newJoints = self.model.ikcon(point); 
     self.model.animate(newJoints);
+    self.drawingSpace()
     pause(0.02);
 end
 end
@@ -184,7 +198,68 @@ function lift(self,boolean)
        jointMatrix(i,5) = 0; 
        self.model.animate(jointMatrix(i,:)); 
        pause(0.02); 
+       self.stopcheck()
     end           
 end 
+%% draw animation
+function drawingSpace(self)
+    
+    blastStartTr = self.model.fkine(self.model.getpos());
+    blastStartPnt = blastStartTr(1:3,4)';
+    
+    blastEndTr = self.model.fkine(self.model.getpos()) * transl(0,0,-0.08);
+    blastEndPnt = blastEndTr(1:3,4)';
+    blastPlot_h = plot3([blastStartPnt(1),blastEndPnt(1)],[blastStartPnt(2),blastEndPnt(2)],[blastStartPnt(3),blastEndPnt(3)],'r');
+    axis equal;
+    
+    planeXntersect = 0.02;
+    planeBounds = [0.15,0.62,-0.22,0.25,0,0];
+    [X,Y] = meshgrid(planeBounds(1):0.01:planeBounds(2),planeBounds(3):0.01:planeBounds(4));
+    Z = repmat(planeXntersect,size(Y,1),size(Y,2));
+    surf(X,Y,Z);
+        
+    planePnt = [0,0,0];
+    planeNormal = [0,0,1];
+
+    [intersectionPoints,check] = self.LinePlaneIntersection(planeNormal,planePnt,blastStartPnt,blastEndPnt);
+    if check == 1
+        intersectionPointPlot_h = plot3(intersectionPoints(:,1),intersectionPoints(:,2),intersectionPoints(:,3),'g*');
+    end
+
+end
+%% LinePlaneIntersection
+% Given a plane (normal and point) and two points that make up another line, get the intersection
+% Check == 0 if there is no intersection
+% Check == 1 if there is a line plane intersection between the two points
+% Check == 2 if the segment lies in the plane (always intersecting)
+% Check == 3 if there is intersection point which lies outside line segment
+function [intersectionPoint,check] = LinePlaneIntersection(self,planeNormal,pointOnPlane,point1OnLine,point2OnLine)
+
+intersectionPoint = [0 0 0];
+u = point2OnLine - point1OnLine;
+w = point1OnLine - pointOnPlane;
+D = dot(planeNormal,u);
+N = -dot(planeNormal,w);
+check = 0; %#ok<NASGU>
+if abs(D) < 10^-7        % The segment is parallel to plane
+    if N == 0           % The segment lies in plane
+        check = 2;
+        return
+    else
+        check = 0;       %no intersection
+        return
+    end
+end
+
+%compute the intersection parameter
+sI = N / D;
+intersectionPoint = point1OnLine + sI.*u;
+
+if (sI < 0 || sI > 1)
+    check= 3;          %The intersection point  lies outside the segment, so there is no intersection
+else
+    check=1;
+end
+end
     end
 end
