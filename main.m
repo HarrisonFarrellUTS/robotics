@@ -35,3 +35,24 @@ dobot.goto(point, 200);
 %% e-stop test
 dobot.eStop = true; 
 
+%%
+
+image = imread('image2.JPEG');
+
+[width,height,~] = size(image);
+
+PathFinder = pathFinder();
+
+PathFinder.loadimage(image);
+
+PathFinder.findPath;
+
+stack = PathFinder.coordStack;
+
+PathFollwer = pathFollow(stack, width, height, dobot);
+
+PathFollwer.drawStack();
+
+
+
+
