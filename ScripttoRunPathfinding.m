@@ -1,6 +1,6 @@
 
 
-image = imread('image.JPEG');
+image = imread('image2.JPEG');
 
 x = pathFinder()
 
