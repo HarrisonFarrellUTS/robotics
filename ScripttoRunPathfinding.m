@@ -1,5 +1,3 @@
-
-
 image = imread('image2.JPEG');
 
 x = pathFinder()
