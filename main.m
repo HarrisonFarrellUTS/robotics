@@ -21,9 +21,7 @@ dobot.lift(true);
 pause(0.5); 
 dobot.lift(false); 
 %% drawing a box
-for i = 0:1:3
-    dobot.drawBox(); 
-end
+dobot.drawBox(); 
 %% e-stop test
 point = transl(0.1,0.2,0); 
 dobot.goto(point, 200);

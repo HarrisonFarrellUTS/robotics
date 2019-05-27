@@ -204,7 +204,7 @@ end
 %% draw animation
 function drawingSpace(self)
     
-    blastStartTr = self.model.fkine(self.model.getpos());
+    blastStartTr = self.model.fkine(self.model.getpos()) * transl(0,0,-0.04);
     blastStartPnt = blastStartTr(1:3,4)';
     
     blastEndTr = self.model.fkine(self.model.getpos()) * transl(0,0,-0.08);
@@ -212,7 +212,7 @@ function drawingSpace(self)
     blastPlot_h = plot3([blastStartPnt(1),blastEndPnt(1)],[blastStartPnt(2),blastEndPnt(2)],[blastStartPnt(3),blastEndPnt(3)],'r');
     axis equal;
     
-    planeXntersect = 0.02;
+    planeXntersect = 0.01;
     planeBounds = [0.15,0.62,-0.22,0.25,0,0];
     [X,Y] = meshgrid(planeBounds(1):0.01:planeBounds(2),planeBounds(3):0.01:planeBounds(4));
     Z = repmat(planeXntersect,size(Y,1),size(Y,2));
