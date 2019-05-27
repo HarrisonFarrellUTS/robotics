@@ -170,5 +170,26 @@ for i = 0.2:-0.005:0.1
     pause(0.02);
 end
 end
+%% lift & lower
+function lift(self,boolean)     
+    if(boolean == true)
+        movement = transl(0,0,0.05);
+    end
+    if(boolean == false)
+        movement = transl(0,0,-0.05);
+    end    
+        jointAngles = self.model.getpos()
+        endEffector = self.model.fkine(jointAngles)
+        endEffector = endEffector * movement; 
+        NewjointAngles = self.model.ikcon(endEffector);
+        jointMatrix = self.CalculateTrajectory(jointAngles, NewjointAngles, 75);
+        
+    for i = 1:75                                                
+       jointMatrix(i,5) = 0; 
+       self.model.animate(jointMatrix(i,:)); 
+       pause(0.02); 
+    end           
+end 
+
     end
 end
