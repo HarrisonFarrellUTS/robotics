@@ -114,7 +114,15 @@ function angleMatrix = CalculateTrajectory(self,initial_q,final_q,steps)
     end
 end
 %% Move Robot
-function goto(self,location,steps, boolean) 
+function goto(self,x,y,steps, boolean)
+    
+    if(self.draw == 0)
+        z = 0.05;
+    else
+        z = 0;
+    end
+    
+    location = transl(x,y,z);
     angle = atan(location(2,4) / location(1,4));
     xOffset = cos(angle) * self.toolOffset(1,4);
     yOffset = sin(angle) * self.toolOffset(1,4);
