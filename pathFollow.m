@@ -16,6 +16,7 @@ classdef pathFollow < handle
             self.Width = Width;
             self.Height = Height;
         end
+        
         function drawStack(self)
             sz = size(self.coordStack);
             for i = 1:sz(1)
@@ -30,41 +31,64 @@ classdef pathFollow < handle
                         disp('nextPoint');
                         disp(x);
                         disp(y);
+                        % Size of a4 page 0.105mx 0.1485m
+                        % Size fo camera  480  x  640
+                        y1 = y * 0.105/480;
+                        x1 = x * 0.1485/640;
+                        self.Dobot.goto(x1,y1,5,0);
+                        self.setSurrondinngCells(x,y);
                         if(self.Dobot.draw == 0)
                             self.Dobot.draw = 1;
                             self.Dobot.lift(false);
                         end
-                        % Size of a4 page 0.21mx 0.297m
-                        % Size fo camera  480  x  640
-                        x1 = x * 0.21/480;
-                        y1 = y * 0.297/640;
-                        pos = transl(x1,y1,0);
-                        self.Dobot.goto(pos,2);
-                        self.setSurrondinngCells(x,y);
                     end
                 end
             end
         end
         function setSurrondinngCells(self,x,y)
-            self.previouslyDrawn(x,y) = 1;
-            if(x>=2)
-                self.previouslyDrawn(x-1,y) = 1;
-                if(y>=2)
+            if y>2
+                self.previouslyDrawn(x,y-1) = 1;
+                self.previouslyDrawn(x,y+1) = 1;
+                self.previouslyDrawn(x,y+2) = 1;
+                
+                self.previouslyDrawn(x+1,y-1) = 1;
+                self.previouslyDrawn(x+1,y) = 1;
+                self.previouslyDrawn(x+1,y+1) = 1;
+                self.previouslyDrawn(x+1,y+2) = 1;
+                
+                self.previouslyDrawn(x+2,y-1) = 1;
+                self.previouslyDrawn(x+2,y) = 1;
+                self.previouslyDrawn(x+2,y+1) = 1;
+                self.previouslyDrawn(x+2,y+2) = 1;
+                
+            end
+            if y>3
+                self.previouslyDrawn(x,y-2) = 1;
+                self.previouslyDrawn(x+1,y-2) = 1;
+                self.previouslyDrawn(x+2,y-2) = 1;
+            end
+            
+            if (x>2)
+                if y>2
                     self.previouslyDrawn(x-1,y-1) = 1;
-                    self.previouslyDrawn(x,y-1) = 1;
-                end
-                if(y<self.Width)
+                    self.previouslyDrawn(x-1,y) = 1;
                     self.previouslyDrawn(x-1,y+1) = 1;
-                    self.previouslyDrawn(x,y+1) = 1;
+                    self.previouslyDrawn(x-1,y+2) = 1;
+                    if y>3
+                        self.previouslyDrawn(x-1,y-2) = 1;
+                    end
                 end
             end
-            if(x<self.Height)
-                self.previouslyDrawn(x+1,y) = 1;
-                if(y>=2)
-                    self.previouslyDrawn(x+1,y-1) = 1;
-                end
-                if(y<self.Width)
-                    self.previouslyDrawn(x+1,y+1) = 1;
+            
+            if (x>3)
+                if y>2
+                    self.previouslyDrawn(x-2,y-1) = 1;
+                    self.previouslyDrawn(x-2,y) = 1;
+                    self.previouslyDrawn(x-2,y+1) = 1;
+                    self.previouslyDrawn(x-2,y+2) = 1;
+                    if y>3
+                        self.previouslyDrawn(x-2,y-2) = 1;
+                    end
                 end
             end
         end
