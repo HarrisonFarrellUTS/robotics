@@ -1,0 +1,30 @@
+Paper size A5 landscape
+points starting from top left going right 
+(x,y,z,r)
+writing depth = -0.055
+
+Top of the page
+P1 = (0.31, 0.105, depth, 0)
+P2 = (0.31 0, depth, 0)
+P3 = (0.31, -0.095, depth,0)
+
+Middle of the page
+P4 = (0.24,0.105,depth,0)
+P5 = (0.24,0,depth,0)
+P6 = (0.24,-0.095, depth,0)
+
+Bottom of the page
+P7 = (0.165,0.105,depth,0)
+P8 = (0.165,0,depth,0)
+P9 = (0.165,-0.095,depth,0v)
+
+
+Dimension drawing space
+X = -0.095 - 0.105
+Y = 0.165 - 0.31
+Z = -0.055 - 0.5 
+
+the location of the endpoint on the REAL dobot 
+xREAL = 
+yREAL = 
+zREAL = 
