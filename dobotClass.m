@@ -114,8 +114,11 @@ function angleMatrix = CalculateTrajectory(self,initial_q,final_q,steps)
     end
 end
 %% Move Robot
-function goto(self,location,steps)     
-    location = location * self.toolOffset;
+function goto(self,location,steps, boolean) 
+    angle = atan(location(2,4) / location(1,4));
+    xOffset = cos(angle) * self.toolOffset(1,4);
+    yOffset = sin(angle) * self.toolOffset(1,4);
+    location = location * transl(xOffset,yOffset,self.toolOffset(3,4));
     robotJoints = self.model.getpos();   
     newJoints = self.model.ikcon(location); 
     jointMatrix = self.CalculateTrajectory(robotJoints, newJoints, steps); 
@@ -123,7 +126,9 @@ function goto(self,location,steps)
     for i = 1:steps                                                
        jointMatrix(i,5) = 0; 
        self.model.animate(jointMatrix(i,:)); 
-       self.drawingSpace();
+       if(boolean)
+            self.drawingSpace();
+       end
        pause(0.02); 
        self.stopcheck();
     end
@@ -232,11 +237,6 @@ function drawingSpace(self)
 
 end
 %% LinePlaneIntersection
-% Given a plane (normal and point) and two points that make up another line, get the intersection
-% Check == 0 if there is no intersection
-% Check == 1 if there is a line plane intersection between the two points
-% Check == 2 if the segment lies in the plane (always intersecting)
-% Check == 3 if there is intersection point which lies outside line segment
 function [intersectionPoint,check] = LinePlaneIntersection(self,planeNormal,pointOnPlane,point1OnLine,point2OnLine)
 
 intersectionPoint = [0 0 0];
