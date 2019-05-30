@@ -25,7 +25,10 @@ dobot.drawBox();
 
 %%
 
-image = imread('image2.JPEG');
+dobot = dobotClass();
+% dobot.plotSimulation3d();
+
+image = imread('image3.jpeg');
 
 [width,height,~] = size(image);
 
@@ -37,7 +40,7 @@ PathFinder.findPath;
 
 stack = PathFinder.coordStack;
 
-dobot.goto(0.1,0.1,5,0);
+%dobot.goto(0.1,0.1,5,0);
 
 PathFollwer = pathFollow(stack, width, height, dobot);
 

@@ -26,7 +26,7 @@ classdef pathFollow < handle
                 y = z(2);
                 if(x == 999 && y == 999)
                     self.Dobot.draw = 0;
-                    self.Dobot.lift(true);
+%                     self.Dobot.lift(true);
                 else
                     if(self.previouslyDrawn(x,y) == 0)
                     
@@ -38,11 +38,12 @@ classdef pathFollow < handle
                         x1 = x * 0.1485/640;
                         x1 = x1+0.18;
                         
-                        self.Dobot.goto(x1,y1,4,0);
+%                         self.Dobot.goto(x1,y1,4,0);
+                        self.Dobot.gotoREAL(x1,y1);
                         self.setSurrondinngCells(x,y);
                         if(self.Dobot.draw == 0)
                             self.Dobot.draw = 1;
-                            self.Dobot.lift(false);
+%                             self.Dobot.lift(false);
                         end
                     end
                 end
