@@ -20,6 +20,7 @@ classdef pathFollow < handle
         function drawStack(self)
             sz = size(self.coordStack);
             for i = 1:sz(1)
+                disp(i);
                 z = self.coordStack(i,:);
                 x = z(1);
                 y = z(2);
@@ -28,14 +29,16 @@ classdef pathFollow < handle
                     self.Dobot.lift(true);
                 else
                     if(self.previouslyDrawn(x,y) == 0)
-                        disp('nextPoint');
-                        disp(x);
-                        disp(y);
-                        % Size of a4 page 0.105mx 0.1485m
+                    
+                        % Size of a4 page 0.105m x 0.1485m
                         % Size fo camera  480  x  640
                         y1 = y * 0.105/480;
+                        y1 = y1 - 0.15;
+                        
                         x1 = x * 0.1485/640;
-                        self.Dobot.goto(x1,y1,5,0);
+                        x1 = x1+0.18;
+                        
+                        self.Dobot.goto(x1,y1,4,0);
                         self.setSurrondinngCells(x,y);
                         if(self.Dobot.draw == 0)
                             self.Dobot.draw = 1;
