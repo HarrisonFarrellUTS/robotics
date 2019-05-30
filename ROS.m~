@@ -51,30 +51,32 @@ pause(1);
 %dobot.goto(transl(0.31,0.105,0), 100, false); 
 cartsvc_ = rossvcclient('/dobot_magician/PTP/set_cartesian_pos');
 cartmsg_ = rosmessage(cartsvc_);
-cartmsg_.TargetPoints=[0.2,0,-0.08,0];
+cartmsg_.TargetPoints=[0.2,0.105,-0.8,0];
 cartsvc_.call(cartmsg_)
+%%
+pause;
 % top right point
 %dobot.goto(transl(0.31, -0.095, 0), 100, true); 
 cartsvc_ = rossvcclient('/dobot_magician/PTP/set_cartesian_pos');
 cartmsg_ = rosmessage(cartsvc_);
-cartmsg_.TargetPoints=[0.31,-0.095,-0.08,0];
+cartmsg_.TargetPoints=[0.31,-0.095,0,0];
 cartsvc_.call(cartmsg_)
 %pause;
 % bottom left point
 %dobot.goto(transl(0.165, 0.105, 0), 100, true); 
 cartsvc_ = rossvcclient('/dobot_magician/PTP/set_cartesian_pos');
 cartmsg_ = rosmessage(cartsvc_);
-cartmsg_.TargetPoints=[0.165,0.105,-0.08,0];
+cartmsg_.TargetPoints=[0.165,0.105,0,0];
 cartsvc_.call(cartmsg_)
 %pause();
 % bottom right point
 %dobot.goto(transl(0.165, -0.095, 0), 100, true); 
 cartsvc_ = rossvcclient('/dobot_magician/PTP/set_cartesian_pos');
 cartmsg_ = rosmessage(cartsvc_);
-cartmsg_.TargetPoints=[0.165,-0.095,-0.08,0];
+cartmsg_.TargetPoints=[0.165,-0.095,0,0];
 cartsvc_.call(cartmsg_)
 %pause();
 cartsvc_ = rossvcclient('/dobot_magician/PTP/set_cartesian_pos');
 cartmsg_ = rosmessage(cartsvc_);
-cartmsg_.TargetPoints=[0.31,0.105,-0.08,0];
+cartmsg_.TargetPoints=[0.31,0.105,0,0];
 cartsvc_.call(cartmsg_)

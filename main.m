@@ -28,7 +28,7 @@ dobot.drawBox();
 dobot = dobotClass();
 % dobot.plotSimulation3d();
 
-image = imread('image3.jpeg');
+image = imread('image1.jpeg');
 
 [width,height,~] = size(image);
 
