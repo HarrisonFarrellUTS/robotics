@@ -1,9 +1,6 @@
-
-
 clc
 close all
 clear all
-
 
 maskedImagePlayer = vision.VideoPlayer;
 binaryImagePlayer = vision.VideoPlayer;   
@@ -12,8 +9,6 @@ dilateImagePlayer = vision.VideoPlayer;
 
 imgur = ImageThreshold;
 disp('starting Loop');
-
-
 
 while(true)
     
@@ -26,7 +21,7 @@ maskedImagePlayer(image);
 binaryImagePlayer(newimage);
 erodeImagePlayer(processsedImage);
 
-imwrite(processsedImage,'image.jpeg')
+imwrite(processsedImage,'image1.jpeg')
 pause
 
 end
