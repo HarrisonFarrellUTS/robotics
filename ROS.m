@@ -6,7 +6,7 @@ rosinit('http://localhost:11311');
 cartsvc_ = rossvcclient('/dobot_magician/PTP/set_cartesian_pos');
 cartmsg_ = rosmessage(cartsvc_);
 % create and populate service request (x,y,z,r, all in metres)
-cartmsg_.TargetPoints=[0.31,0,-0.04,0];
+cartmsg_.TargetPoints=[0.31,0,0,0];
 cartsvc_.call(cartmsg_)
 %% Set Joint Angles
 % Setup Variables

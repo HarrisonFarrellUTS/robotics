@@ -46,6 +46,16 @@ PathFollwer = pathFollow(stack, width, height, dobot);
 
 PathFollwer.drawStack();
 
+%%
+url = 'https://172.19.118.81:8080/shot.jpg';
+ss  = imread(url);
+fh = image(ss);
+while(1)
+    ss  = imread(url);
+    set(fh,'CData',ss);
+    drawnow;
+end
+
 
 
 
