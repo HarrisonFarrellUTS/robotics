@@ -56,6 +56,15 @@ while(1)
     drawnow;
 end
 
+%% GUI implementation
 
+clear
+clc
+close all;
+hold on;
+% dobot = dobotClass();
+
+
+New_Gui
 
 

@@ -52,6 +52,16 @@ function New_Gui_OpeningFcn(hObject, eventdata, handles, varargin)
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to New_Gui (see VARARGIN)
 
+dobot = dobotClass();
+axes(handles.axes1)
+% dobot.plotModel3d();
+% environment(dobot.model.base());
+image = imread('image1.jpeg');
+
+
+axes(handles.axes2)
+imshow(image)
+
 % Choose default command line output for New_Gui
 handles.output = hObject;
 
@@ -68,7 +78,7 @@ function varargout = New_Gui_OutputFcn(hObject, eventdata, handles)
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
+    
 % Get default command line output from handles structure
 varargout{1} = handles.output;
 
