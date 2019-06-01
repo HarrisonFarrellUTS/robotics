@@ -1,0 +1,50 @@
+%% Demonstration
+clear                                                                       % clears the workspace
+clc                                                                         % clears the command window
+close all;                                                                  % closes all
+hold on;                                                                    % holds all figures
+
+url = 'http://172.19.118.81:8080/shot.jpg';                                % loads the webcam data from IP webcamm (android app)
+ss  = imread(url);                                                         
+fh = image(ss);
+
+flag =1;
+counter = 0;
+
+while(flag)
+    
+        ss  = imread(url);
+        set(fh,'CData',ss);
+        drawnow;
+        
+    if(counter == 50)
+        counter = 0;
+        prompt = 'Is the picture finished? Y/N: ';
+        str = input(prompt,'s');
+        if isempty(str)
+            str = 'Y';
+        end
+        
+        if(str == 'Y' || str == 'y')
+            flag = 0;
+        end               
+    end
+    
+    counter = counter + 1;
+end
+
+close all;                                                                  % closes all
+hold on;                                                                    % holds all figures
+
+dobot = dobotClass();                                                       % constructor for the dobot class
+dobot.plotModel3d();                                                        % plots the 3D model of the dobot
+environment(dobot.model.base());                                            % plots the environment using the dobot base and the centre point
+dobot.drawingSpace();                                                       % creates the page for the dobot simulation to write on
+
+[width,height,~] = size(image);                                             % sets the size of the image
+PathFinder = pathFinder();                                                  % constructor for the path finder
+PathFinder.loadimage(image);                                                % loading the image into the path finder class
+PathFinder.findPath;                                                        % find the path
+stack = PathFinder.coordStack;                                              % creating the stack of points to travel to 
+PathFollwer = pathFollow(stack, width, height, dobot);                      % constructor of the path follower 
+PathFollwer.drawStack();                                                    % draws the image
