@@ -51,13 +51,11 @@ function New_Gui_OpeningFcn(hObject, eventdata, handles, varargin)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to New_Gui (see VARARGIN)
-
+    
 handles.goToX = 0;
 handles.goToY = 0;
 handles.goToZ = 0;
-handles.MoveRate = 0.03;
-
-
+handles.MoveRate = 0.01;
 
 handles.dobot = dobotClass();
 axes(handles.axes1)
@@ -258,8 +256,10 @@ function Pos_X_Callback(hObject, eventdata, handles)
 % hObject    handle to Pos_X (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-handles.goToX = (handles.goToX + handles.MoveRate);
-disp(handles.goToX)
+handles.goToX =  handles.goToX + handles.MoveRate;
+handles.dobot.goto(handles.goToX,handles.goToY,2,0);
+guidata(hObject, handles);
+
 
 % --- Executes on button press in Neg_X.
 function Neg_X_Callback(hObject, eventdata, handles)
@@ -268,26 +268,35 @@ function Neg_X_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 handles.goToX = handles.goToX -handles.MoveRate;
+handles.dobot.goto(handles.goToX,handles.goToY,2,0);
+guidata(hObject, handles);
+
 % --- Executes on button press in Neg_Y.
 function Neg_Y_Callback(hObject, eventdata, handles)
 % hObject    handle to Neg_Y (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-handles.goToY = handles.goToY - handles.MoveRate
+handles.goToY = handles.goToY - handles.MoveRate;
+handles.dobot.goto(handles.goToX,handles.goToY,2,0);
+guidata(hObject, handles);
 
 % --- Executes on button press in Pos_Y.
 function Pos_Y_Callback(hObject, eventdata, handles)
 % hObject    handle to Pos_Y (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-handles.goToY = handles.goToY + handles.MoveRate
+handles.goToY = handles.goToY + handles.MoveRate;
+handles.dobot.goto(handles.goToX,handles.goToY,2,0);
+guidata(hObject, handles);
 
 % --- Executes on button press in Pos_Z.
 function Pos_Z_Callback(hObject, eventdata, handles)
 % hObject    handle to Pos_Z (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-handles.goToZ = handles.goToZ + handles.MoveRate
+handles.goToZ = handles.goToZ + handles.MoveRate;
+handles.dobot.goto(handles.goToX,handles.goToY,2,0);
+guidata(hObject, handles);
 
 % --- Executes on button press in Neg_Z.
 function Neg_Z_Callback(hObject, eventdata, handles)
@@ -295,7 +304,9 @@ function Neg_Z_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-handles.goToZ = handles.goToZ - handles.MoveRate
+handles.goToZ = handles.goToZ - handles.MoveRate;
+handles.dobot.goto(handles.goToX,handles.goToY,2,0);
+guidata(hObject, handles);
 
 % --- Executes on button press in Estop.
 function Estop_Callback(hObject, eventdata, handles)
