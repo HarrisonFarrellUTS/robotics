@@ -36,6 +36,8 @@ end
 close all;                                                                  % closes all
 hold on;                                                                    % holds all figures
 
+rosinit('http://localhost:11311');                                          % creates the required ros node
+
 dobot = dobotClass();                                                       % constructor for the dobot class
 dobot.plotModel3d();                                                        % plots the 3D model of the dobot
 environment(dobot.model.base());                                            % plots the environment using the dobot base and the centre point
