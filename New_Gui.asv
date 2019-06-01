@@ -52,10 +52,6 @@ function New_Gui_OpeningFcn(hObject, eventdata, handles, varargin)
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to New_Gui (see VARARGIN)
 
-handles.goToX = 0;
-handles.goToY = 0;
-handles.goToZ = 0;
-
 
 
 handles.dobot = dobotClass();

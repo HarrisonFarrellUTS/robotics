@@ -18,10 +18,9 @@ classdef dobotClass < handle
         end
         %% E-stop function
         function stopcheck(self)
-            if(self.eStop == true)
+            while(self.eStop == true)
                 disp('E-stop pressed');
-                while(1)
-                end
+                pause(0.05);
             end
         end
         %% Creating the Dobot both model with attachment and simulation
@@ -115,7 +114,7 @@ classdef dobotClass < handle
             end
         end
         %% Move Robot
-        function goto(self,x,y,steps, boolean)
+        function goto(self,x,y,steps,boolean)
             
             if(self.draw == 0)
                 z = 0.05;
@@ -133,6 +132,7 @@ classdef dobotClass < handle
             jointMatrix = self.CalculateTrajectory(robotJoints, newJoints, steps);
             
             for i = 1:steps
+                self.stopcheck();
                 jointMatrix(i,5) = 0;
                 self.model.animate(jointMatrix(i,:));
                 if(boolean)

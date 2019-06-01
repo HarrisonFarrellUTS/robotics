@@ -61,9 +61,6 @@ end
 clear
 clc
 close all;
-hold on;
-% dobot = dobotClass();
-
 
 New_Gui
 
