@@ -22,7 +22,7 @@ function varargout = New_Gui(varargin)
 
 % Edit the above text to modify the response to help New_Gui
 
-% Last Modified by GUIDE v2.5 01-Jun-2019 13:58:04
+% Last Modified by GUIDE v2.5 01-Jun-2019 16:29:22
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -321,8 +321,18 @@ function Estop_Callback(hObject, eventdata, handles)
 % hObject    handle to Estop (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-disp('stopping robot')
+disp('stopping robot');
+handles.dobot.eStop = true;
+guidata(hObject, handles);
 
-dobot.eStop = true;
 % dobot.stopcheck;
+
+% --- Executes on button press in eStop_Reset.
+function eStop_Reset_Callback(hObject, eventdata, handles)
+% hObject    handle to eStop_Reset (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+disp('ROBOT RESET');
+handles.dobot.eStop = false;
+guidata(hObject, handles);
 
