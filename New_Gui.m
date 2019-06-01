@@ -248,7 +248,15 @@ function Go_To_Pose_Callback(hObject, eventdata, handles)
 % hObject    handle to Go_To_Pose (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-handles.dobot.goto(handles.goToX,handles.goToY,100,0);
+x = str2double(get(handles.X_Coord,'String'));
+y = str2double(get(handles.Y_Coord,'String'));
+z = str2double(get(handles.Z_Coord,'String'));
+
+handles.goToX = x;
+handles.goToY = y;
+handles.goToZ = z;
+handles.dobot.goto(x,y,100,0);
+guidata(hObject, handles);
 
 
 % --- Executes on button press in Pos_X.
