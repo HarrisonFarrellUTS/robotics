@@ -53,7 +53,7 @@ classdef ImageThreshold < handle
 %            SE = strel('square',2);
 %             image = imerode(image,SE);
             
-            SE = strel('square',2);
+            SE = strel('square',5);
             processedImage = imdilate(image,SE);
             
 %             SE = strel('square',5);
