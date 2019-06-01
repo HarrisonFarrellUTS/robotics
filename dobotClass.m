@@ -160,6 +160,49 @@ classdef dobotClass < handle
                 pause(0.05);
             end
         end
+        %% Dobot move both real & simulation
+        function moveBothJoints(q1, q2, q3)
+            q1REAL = q1;
+            q2REAL = q2;
+            q3REAL = q3;
+            q4REAL = pi - (q2REAL + q3REAL);
+            
+            q3MODEL = pi/2 - q2REAL + q3REAL;
+            q4MODEL = pi - (q2REAL + q3MODEL);
+            
+            qMoveMODEL = [q1REAL,q2REAL,q3MODEL,q4MODEL];
+            qMoveREAL = [q1REAL, q2REAL, q3REAL, q4REAL];
+            
+            jangsvc_ = rossvcclient('/dobot_magician/PTP/set_joint_angles');
+            jangmsg_ = rosmessage(jangsvc_);
+            jangmsg_.TargetPoints = qMoveREAL;
+            jangsvc_.call(jangmsg_);
+            
+            self.model.animate(qMoveMODEL);
+            drawnow();
+        end
+        
+        %% Dobot move both real & simulation
+        function moveBothLocation(x,y,z)
+            
+            robotJoints = self.model.getpos();
+            newJoints = self.model.ikcon(location);
+            jointMatrix = self.CalculateTrajectory(robotJoints, newJoints, steps);
+            
+            cartsvc_ = rossvcclient('/dobot_magician/PTP/set_cartesian_pos');
+            cartmsg_ = rosmessage(cartsvc_);
+            cartmsg_.TargetPoints=[x,y,z,0];
+            cartsvc_.call(cartmsg_)
+            
+            for i = 1:50
+                self.stopcheck();
+                jointMatrix(i,5) = 0;
+                self.model.animate(jointMatrix(i,:));
+                pause(0.02);
+                self.stopcheck();
+            end
+        end
+        
         %% draw box
         function drawBox(self)
             for i = -0.2:0.005:0.2
