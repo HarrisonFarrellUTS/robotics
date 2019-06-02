@@ -8,22 +8,22 @@ classdef ImageThreshold < handle
     methods
         function self = ImageThreshold
             imaqhwinfo ('winvideo');
-            self.input = self.startCamera();
+            self.input = self.StartCamera();
         end
         
         %% start camera
-        function feed = startCamera(self)
+        function feed = StartCamera(self)
             camlist = webcamlist;
             cam = webcam(2);
             feed = cam;
             preview(feed);
         end
         %% take snapshot
-        function im = takeSnapshot(self)
+        function im = TakeSnapshot(self)
             im = snapshot(self.input);
         end
         %% binarise Image
-        function binaryImage = thresholdImage(self, image)
+        function binaryImage = ThresholdImage(self, image)
             I = rgb2lab(image);
             % Define thresholds for channel 1 based on histogram settings
             channel1Min = 0.000;
@@ -49,7 +49,7 @@ classdef ImageThreshold < handle
             
         end
         %% Errode and dilate image
-        function processedImage = erodeAndDilate(self, image)
+        function processedImage = ErodeAndDilate(self, image)
 %            SE = strel('square',2);
 %             image = imerode(image,SE);
             

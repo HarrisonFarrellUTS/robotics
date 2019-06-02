@@ -44,9 +44,9 @@ environment(dobot.model.base());                                            % pl
 dobot.drawingSpace();                                                       % creates the page for the dobot simulation to write on
 
 [width,height,~] = size(image);                                             % sets the size of the image
-PathFinder = pathFinder();                                                  % constructor for the path finder
-PathFinder.loadimage(image);                                                % loading the image into the path finder class
-PathFinder.findPath;                                                        % find the path
-stack = PathFinder.coordStack;                                              % creating the stack of points to travel to 
-PathFollwer = pathFollow(stack, width, height, dobot);                      % constructor of the path follower 
-PathFollwer.drawStack();                                                    % draws the image
+pathFinder = PathFinder();                                                  % constructor for the path finder
+pathFinder.LoadImage(image);                                                % loading the image into the path finder class
+pathFinder.FindPath;                                                        % find the path
+stack = pathFinder.coordStack;                                              % creating the stack of points to travel to 
+pathFollwer = PathFollow(stack, width, height, dobot);                      % constructor of the path follower 
+pathFollwer.DrawStack();                                                    % draws the image
