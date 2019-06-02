@@ -161,7 +161,7 @@ classdef dobotClass < handle
             end
         end
         %% Dobot move both real & simulation
-        function moveBothJoints(q1, q2, q3)
+        function moveBothJoints(self, q1, q2, q3)
             q1REAL = q1;
             q2REAL = q2;
             q3REAL = q3;
@@ -169,8 +169,9 @@ classdef dobotClass < handle
             
             q3MODEL = pi/2 - q2REAL + q3REAL;
             q4MODEL = pi - (q2REAL + q3MODEL);
+            q5MODEL = 0; 
             
-            qMoveMODEL = [q1REAL,q2REAL,q3MODEL,q4MODEL];
+            qMoveMODEL = [q1REAL,q2REAL,q3MODEL,q4MODEL, q5MODEL];
             qMoveREAL = [q1REAL, q2REAL, q3REAL, q4REAL];
             
 %             jangsvc_ = rossvcclient('/dobot_magician/PTP/set_joint_angles');
@@ -183,7 +184,7 @@ classdef dobotClass < handle
         end
         
         %% Dobot move both real & simulation
-        function moveBothLocation(x,y,z)
+        function moveBothLocation(self, x,y,z)
             
             robotJoints = self.model.getpos();
             newJoints = self.model.ikcon(location);
