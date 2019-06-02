@@ -1,4 +1,4 @@
-classdef environment < handle
+classdef Environment < handle
     properties      
         % A cell structure of models
         model;  
@@ -11,7 +11,7 @@ classdef environment < handle
     end
     methods
       %% Creating loading the correct parts into there place  
-        function self = environment(location)
+        function self = Environment(location)
             %coordinates of object are set when constructing object
             self.model = self.GetModel('environment');
             self.model.base = location;

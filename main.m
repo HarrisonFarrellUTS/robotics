@@ -13,7 +13,7 @@ close all;
 hold on;
 dobot = dobotClass();
 dobot.plotModel3d();
-environment(dobot.model.base());
+Environment(dobot.model.base());
 dobot.drawingSpace(); 
 %dobot.model.teach()
 %% lift & lower the arm
@@ -28,23 +28,21 @@ dobot.drawBox();
 dobot = dobotClass();
 % dobot.plotSimulation3d();
 
-image = imread('image1.jpeg');
+image = imread('image2.jpeg');
 
 [width,height,~] = size(image);
 
-PathFinder = pathFinder();
+pathFinder = PathFinder();
 
-PathFinder.loadimage(image);
+pathFinder.Loadimage(image);
 
-PathFinder.findPath;
+pathFinder.FindPath;
 
-stack = PathFinder.coordStack;
+stack = pathFinder.coordStack;
 
-%dobot.goto(0.1,0.1,5,0);
+pathFollwer = PathFollow(stack, width, height, dobot);
 
-PathFollwer = pathFollow(stack, width, height, dobot);
-
-PathFollwer.drawStack();
+pathFollwer.DrawStack();
 
 %%
 url = 'https://172.19.118.81:8080/shot.jpg';

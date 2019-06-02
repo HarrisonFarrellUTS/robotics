@@ -1,9 +1,9 @@
 image = imread('image2.JPEG');
 
-x = pathFinder()
+x = PathFinder()
 
-x.loadimage(image)
+x.Loadimage(image)
 
-x.findPath
+x.FindPath
 
 stack = x.coordStack;

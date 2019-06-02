@@ -1,4 +1,4 @@
-classdef pathFollow < handle
+classdef PathFollow < handle
     %Takes a coord stack, width, height and dobot
     properties
         coordStack
@@ -9,7 +9,7 @@ classdef pathFollow < handle
     end
     
     methods
-        function self = pathFollow(Stack,Width,Height,dobot)
+        function self = PathFollow(Stack,Width,Height,dobot)
             self.coordStack = Stack;
             self.previouslyDrawn = zeros(Width,Height);
             self.Dobot = dobot;
@@ -17,7 +17,7 @@ classdef pathFollow < handle
             self.Height = Height;
         end
         
-        function drawStack(self)
+        function DrawStack(self)
             sz = size(self.coordStack);
             for i = 1:sz(1)
                 disp(i);
@@ -40,7 +40,7 @@ classdef pathFollow < handle
                         
                         %                         self.Dobot.goto(x1,y1,4,0);
                         self.Dobot.gotoREAL(x1,y1);
-                        self.setSurrondinngCells(x,y);
+                        self.SetSurrondinngCells(x,y);
                         if(self.Dobot.draw == 0)
                             self.Dobot.draw = 1;
                             %                             self.Dobot.lift(false);
@@ -49,7 +49,7 @@ classdef pathFollow < handle
                 end
             end
         end
-        function setSurrondinngCells(self,x,y)
+        function SetSurrondinngCells(self,x,y)
             if y>2
                 self.previouslyDrawn(x,y-1) = 1;
                 self.previouslyDrawn(x,y+1) = 1;

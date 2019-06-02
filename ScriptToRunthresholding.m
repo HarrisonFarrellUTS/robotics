@@ -12,10 +12,10 @@ disp('starting Loop');
 
 while(true)
     
-image  = imgur.takeSnapshot();
-newimage = imgur.thresholdImage(image);
+image  = imgur.TakeSnapshot();
+newimage = imgur.ThresholdImage(image);
 
-processsedImage = imgur.erodeAndDilate(newimage);
+processsedImage = imgur.ErodeAndDilate(newimage);
 
 maskedImagePlayer(image);
 binaryImagePlayer(newimage);

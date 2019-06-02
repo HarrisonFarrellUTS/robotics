@@ -1,4 +1,4 @@
-classdef dobotClass < handle
+classdef DobotClass < handle
     properties
         model;
         simulation;
@@ -11,13 +11,13 @@ classdef dobotClass < handle
     end
     methods
         %% Constructor
-        function self = dobotClass()
+        function self = DobotClass()
             location = transl(0,0,0);
             CreateDobot(self,location);
             %rosinit('http://localhost:11311');
         end
         %% E-stop function
-        function stopcheck(self)
+        function Stopcheck(self)
             while(self.eStop == true)
                 disp('E-stop pressed');
                 pause(0.05);
@@ -54,7 +54,7 @@ classdef dobotClass < handle
             self.model.plot(self.qNeutral);
         end
         %% Plot 3D model with attachment
-        function plotModel3d(self)
+        function PlotModel3d(self)
             for linkIndex = 0:self.model.n
                 [ faceData, vertexData, plyData{linkIndex + 1} ] = plyread(['dobotLink',num2str(linkIndex),'.ply'],'tri');
                 self.model.faces{linkIndex + 1} = faceData;
@@ -80,7 +80,7 @@ classdef dobotClass < handle
             end
         end
         %% Plot 3D simulation Dobot - no attachments
-        function plotSimulation3d(self)
+        function PlotSimulation3d(self)
             for linkIndex = 0:self.simulation.n
                 [ faceData, vertexData, plyData{linkIndex + 1} ] = plyread(['dobotLink',num2str(linkIndex),'.ply'],'tri');
                 self.simulation.faces{linkIndex + 1} = faceData;
@@ -114,7 +114,7 @@ classdef dobotClass < handle
             end
         end
         %% Move Robot
-        function goto(self,x,y,steps,boolean)
+        function Goto(self,x,y,steps,boolean)
             
             if(self.draw == 0)
                 z = 0.05;
@@ -132,14 +132,14 @@ classdef dobotClass < handle
             jointMatrix = self.CalculateTrajectory(robotJoints, newJoints, steps);
             
             for i = 1:steps
-                self.stopcheck();
+                self.Stopcheck();
                 jointMatrix(i,5) = 0;
                 self.model.animate(jointMatrix(i,:));
                 if(boolean)
-                    self.drawingSpace();
+                    self.DrawingSpace();
                 end
                 pause(0.02);
-                self.stopcheck();
+                self.Stopcheck();
             end
         end
         %% Dobot Requirement
@@ -196,11 +196,11 @@ classdef dobotClass < handle
             cartsvc_.call(cartmsg_)
             
             for i = 1:50
-                self.stopcheck();
+                self.Stopcheck();
                 jointMatrix(i,5) = 0;
                 self.model.animate(jointMatrix(i,:));
                 pause(0.02);
-                self.stopcheck();
+                self.Stopcheck();
             end
         end
         
@@ -211,7 +211,7 @@ classdef dobotClass < handle
                 point = point * self.toolOffset;
                 newJoints = self.model.ikcon(point);
                 self.model.animate(newJoints);
-                self.drawingSpace()
+                self.DrawingSpace()
                 pause(0.02);
             end
             for i = 0.1:0.005:0.2
@@ -219,7 +219,7 @@ classdef dobotClass < handle
                 point = point * self.toolOffset;
                 newJoints = self.model.ikcon(point);
                 self.model.animate(newJoints);
-                self.drawingSpace()
+                self.DrawingSpace()
                 pause(0.02);
             end
             
@@ -228,7 +228,7 @@ classdef dobotClass < handle
                 point = point * self.toolOffset;
                 newJoints = self.model.ikcon(point);
                 self.model.animate(newJoints);
-                self.drawingSpace()
+                self.DrawingSpace()
                 pause(0.02);
             end
             
@@ -237,7 +237,7 @@ classdef dobotClass < handle
                 point = point * self.toolOffset;
                 newJoints = self.model.ikcon(point);
                 self.model.animate(newJoints);
-                self.drawingSpace()
+                self.DrawingSpace()
                 pause(0.02);
             end
         end
@@ -260,11 +260,11 @@ classdef dobotClass < handle
                 jointMatrix(i,5) = 0;
                 self.model.animate(jointMatrix(i,:));
                 pause(0.02);
-                self.stopcheck()
+                self.Stopcheck()
             end
         end
         %%
-        function    gotoREAL(self,x,y)
+        function    GotoREAL(self,x,y)
             cartsvc_ = rossvcclient('/dobot_magician/PTP/set_cartesian_pos');
             cartmsg_ = rosmessage(cartsvc_);
             if(self.draw == true)
@@ -277,7 +277,7 @@ classdef dobotClass < handle
         end
         
         %% draw animation
-        function drawingSpace(self)
+        function DrawingSpace(self)
             
             blastStartTr = self.model.fkine(self.model.getpos()) * transl(0,0,-0.04);
             blastStartPnt = blastStartTr(1:3,4)';
