@@ -22,7 +22,7 @@ function varargout = New_Gui(varargin)
 
 % Edit the above text to modify the response to help New_Gui
 
-% Last Modified by GUIDE v2.5 01-Jun-2019 16:29:22
+% Last Modified by GUIDE v2.5 02-Jun-2019 18:24:38
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -312,4 +312,3 @@ function eStop_Reset_Callback(hObject, eventdata, handles)
 disp('ROBOT RESET');
 handles.dobot.eStop = false;
 guidata(hObject, handles);
-
