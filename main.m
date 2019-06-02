@@ -60,6 +60,6 @@ clear
 clc
 close all;
 
-New_Gui
+New_Gui;
 
 

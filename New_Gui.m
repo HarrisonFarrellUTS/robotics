@@ -21,18 +21,18 @@ end
 
 function New_Gui_OpeningFcn(hObject, eventdata, handles, varargin)
    
-handles.goToX = 0;
-handles.goToY = 0;
-handles.goToZ = 0;
+handles.GoToX = 0;
+handles.GoToY = 0;
+handles.GoToZ = 0;
 handles.MoveRate = 0.01;
 
 handles.q1 = 0
 handles.q2 = 45
 handles.q3 = 90 
 
-handles.dobot = dobotClass();
+handles.dobot = DobotClass();
 axes(handles.axes1)
-handles.dobot.plotModel3d();
+handles.dobot.PlotModel3d();
 % environment(handles.dobot.model.base());
 image = imread('image1.jpeg');
 axes(handles.axes2)
@@ -92,6 +92,7 @@ q2 = deg2rad(handles.q2);
 q3 = deg2rad(handles.q3);
 
 handles.dobot.moveBothJoints(q1,q2,q3);
+guidata(hObject, handles);
 
 % --- Executes on slider movement.
 function Joint_2_Slider_Callback(hObject, eventdata, handles)
@@ -100,7 +101,9 @@ q1 = deg2rad(handles.q1);
 q2 = deg2rad(handles.q2);
 q3 = deg2rad(handles.q3);
 
+
 handles.dobot.moveBothJoints(q1,q2,q3);
+guidata(hObject, handles);
 
 % --- Executes on slider movement.
 function Joint_3_Slider_Callback(hObject, eventdata, handles)
@@ -110,6 +113,7 @@ q2 = deg2rad(handles.q2);
 q3 = deg2rad(handles.q3);
 
 handles.dobot.moveBothJoints(q1,q2,q3);
+guidata(hObject, handles);
 
 
 function X_Coord_Callback(hObject, eventdata, handles)
@@ -137,49 +141,49 @@ x = str2double(get(handles.X_Coord,'String'));
 y = str2double(get(handles.Y_Coord,'String'));
 z = str2double(get(handles.Z_Coord,'String'));
 
-handles.goToX = x;
-handles.goToY = y;
-handles.goToZ = z;
+handles.GoToX = x;
+handles.GoToY = y;
+handles.GoToZ = z;
 
-handles.dobot.goto(x,y,100,0);
+handles.dobot.GoTo(x,y,100,0);
 guidata(hObject, handles);
 
 
 % --- Executes on button press in Pos_X.
 function Pos_X_Callback(hObject, eventdata, handles)
-handles.goToX =  handles.goToX + handles.MoveRate;
-handles.dobot.goto(handles.goToX,handles.goToY,2,0);
+handles.GoToX =  handles.GoToX + handles.MoveRate;
+handles.dobot.GoTo(handles.GoToX,handles.GoToY,2,0);
 guidata(hObject, handles);
 
 
 % --- Executes on button press in Neg_X.
 function Neg_X_Callback(hObject, eventdata, handles)
-handles.goToX = handles.goToX -handles.MoveRate;
-handles.dobot.goto(handles.goToX,handles.goToY,2,0);
+handles.GoToX = handles.GoToX -handles.MoveRate;
+handles.dobot.GoTo(handles.GoToX,handles.GoToY,2,0);
 guidata(hObject, handles);
 
 % --- Executes on button press in Neg_Y.
 function Neg_Y_Callback(hObject, eventdata, handles)
-handles.goToY = handles.goToY - handles.MoveRate;
-handles.dobot.goto(handles.goToX,handles.goToY,2,0);
+handles.GoToY = handles.GoToY - handles.MoveRate;
+handles.dobot.GoTo(handles.GoToX,handles.GoToY,2,0);
 guidata(hObject, handles);
 
 % --- Executes on button press in Pos_Y.
 function Pos_Y_Callback(hObject, eventdata, handles)
-handles.goToY = handles.goToY + handles.MoveRate;
-handles.dobot.goto(handles.goToX,handles.goToY,2,0);
+handles.GoToY = handles.GoToY + handles.MoveRate;
+handles.dobot.GoTo(handles.GoToX,handles.GoToY,2,0);
 guidata(hObject, handles);
 
 % --- Executes on button press in Pos_Z.
 function Pos_Z_Callback(hObject, eventdata, handles)
-handles.goToZ = handles.goToZ + handles.MoveRate;
-handles.dobot.goto(handles.goToX,handles.goToY,2,0);
+handles.GoToZ = handles.GoToZ + handles.MoveRate;
+handles.dobot.GoTo(handles.GoToX,handles.GoToY,2,0);
 guidata(hObject, handles);
 
 % --- Executes on button press in Neg_Z.
 function Neg_Z_Callback(hObject, eventdata, handles)
-handles.goToZ = handles.goToZ - handles.MoveRate;
-handles.dobot.goto(handles.goToX,handles.goToY,2,0);
+handles.GoToZ = handles.GoToZ - handles.MoveRate;
+handles.dobot.GoTo(handles.GoToX,handles.GoToY,2,0);
 guidata(hObject, handles);
 
 % --- Executes on button press in Estop.

@@ -114,7 +114,7 @@ classdef DobotClass < handle
             end
         end
         %% Move Robot
-        function Goto(self,x,y,steps,boolean)
+        function GoTo(self,x,y,steps,boolean)
             
             if(self.draw == 0)
                 z = 0.05;
