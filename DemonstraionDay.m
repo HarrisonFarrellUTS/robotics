@@ -38,10 +38,10 @@ hold on;                                                                    % ho
 
 rosinit('http://localhost:11311');                                          % creates the required ros node
 
-dobot = dobotClass();                                                       % constructor for the dobot class
-dobot.plotModel3d();                                                        % plots the 3D model of the dobot
-environment(dobot.model.base());                                            % plots the environment using the dobot base and the centre point
-dobot.drawingSpace();                                                       % creates the page for the dobot simulation to write on
+dobot = DobotClass();                                                       % constructor for the dobot class
+dobot.PlotModel3d();                                                        % plots the 3D model of the dobot
+Environment(dobot.model.base());                                            % plots the environment using the dobot base and the centre point
+dobot.DrawingSpace();                                                       % creates the page for the dobot simulation to write on
 
 [width,height,~] = size(image);                                             % sets the size of the image
 pathFinder = PathFinder();                                                  % constructor for the path finder

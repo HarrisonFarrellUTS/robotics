@@ -13,7 +13,7 @@ close all;
 hold on;
 dobot = dobotClass();
 dobot.plotModel3d();
-environment(dobot.model.base());
+Environment(dobot.model.base());
 dobot.drawingSpace(); 
 %dobot.model.teach()
 %% lift & lower the arm
