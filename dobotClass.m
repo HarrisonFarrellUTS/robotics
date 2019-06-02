@@ -173,10 +173,10 @@ classdef dobotClass < handle
             qMoveMODEL = [q1REAL,q2REAL,q3MODEL,q4MODEL];
             qMoveREAL = [q1REAL, q2REAL, q3REAL, q4REAL];
             
-            jangsvc_ = rossvcclient('/dobot_magician/PTP/set_joint_angles');
-            jangmsg_ = rosmessage(jangsvc_);
-            jangmsg_.TargetPoints = qMoveREAL;
-            jangsvc_.call(jangmsg_);
+%             jangsvc_ = rossvcclient('/dobot_magician/PTP/set_joint_angles');
+%             jangmsg_ = rosmessage(jangsvc_);
+%             jangmsg_.TargetPoints = qMoveREAL;
+%             jangsvc_.call(jangmsg_);
             
             self.model.animate(qMoveMODEL);
             drawnow();

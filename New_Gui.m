@@ -152,29 +152,6 @@ if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColo
 end
 
 
-% --- Executes on slider movement.
-function Joint_4_Slider_Callback(hObject, eventdata, handles)
-% hObject    handle to Joint_4_Slider (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: get(hObject,'Value') returns position of slider
-%        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
-
-
-% --- Executes during object creation, after setting all properties.
-function Joint_4_Slider_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to Joint_4_Slider (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: slider controls usually have a light gray background.
-if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor',[.9 .9 .9]);
-end
-
-
-
 function X_Coord_Callback(hObject, eventdata, handles)
 % hObject    handle to X_Coord (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
