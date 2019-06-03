@@ -7,20 +7,20 @@ classdef ImageThreshold < handle
     end
     methods
         function self = ImageThreshold
-            imaqhwinfo ('winvideo');
-            self.input = self.StartCamera();
+%             imaqhwinfo ('winvideo');
+%             self.input = self.StartCamera();
         end
         
         %% start camera
-        function feed = StartCamera(self)
-            camlist = webcamlist;
-            cam = webcam(2);
-            feed = cam;
-            preview(feed);
+        function StartCamera(self)
+%             camlist = webcamlist;
+%             cam = webcam(2);
+%             feed = cam;
+%             preview(feed);
         end
         %% take snapshot
         function im = TakeSnapshot(self)
-            im = snapshot(self.input);
+%             im = snapshot(self.input);
         end
         %% binarise Image
         function binaryImage = ThresholdImage(self, image)

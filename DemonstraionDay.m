@@ -4,7 +4,8 @@ clc                                                                         % cl
 close all;                                                                  % closes all
 hold on;                                                                    % holds all figures
 
-url = 'http://172.19.118.81:8080/shot.jpg';                                 % loads the webcam data from IP webcamm (android app)
+New_Gui;                                                                    % Starts the GUI
+url = 'http://172.19.119.19:8080/shot.jpg';                                 % loads the webcam data from IP webcamm (android app)
 ss  = imread(url);                                                          % loads the URL image into matlab
 fh = image(ss);
 

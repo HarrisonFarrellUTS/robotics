@@ -2,11 +2,11 @@ function varargout = New_Gui(varargin)
 
 gui_Singleton = 1;
 gui_State = struct('gui_Name',       mfilename, ...
-                   'gui_Singleton',  gui_Singleton, ...
-                   'gui_OpeningFcn', @New_Gui_OpeningFcn, ...
-                   'gui_OutputFcn',  @New_Gui_OutputFcn, ...
-                   'gui_LayoutFcn',  [] , ...
-                   'gui_Callback',   []);
+    'gui_Singleton',  gui_Singleton, ...
+    'gui_OpeningFcn', @New_Gui_OpeningFcn, ...
+    'gui_OutputFcn',  @New_Gui_OutputFcn, ...
+    'gui_LayoutFcn',  [] , ...
+    'gui_Callback',   []);
 if nargin && ischar(varargin{1})
     gui_State.gui_Callback = str2func(varargin{1});
 end
@@ -20,23 +20,32 @@ end
 
 
 function New_Gui_OpeningFcn(hObject, eventdata, handles, varargin)
-   
+
 handles.GoToX = 0;
 handles.GoToY = 0;
 handles.GoToZ = 0;
 handles.MoveRate = 0.01;
+handles.flag = 1; 
 
 handles.q1 = 0
 handles.q2 = 45
-handles.q3 = 90 
+handles.q3 = 90
 
 handles.dobot = DobotClass();
+handles.imgur = ImageThreshold;
 axes(handles.axes1)
 handles.dobot.PlotModel3d();
-% environment(handles.dobot.model.base());
-image = imread('image1.jpeg');
-axes(handles.axes2)
-imshow(image)
+Environment(handles.dobot.model.base());
+
+
+axes(handles.axes2);
+
+axes(handles.axes3); 
+
+
+%image = imread('image1.jpeg');
+% axes(handles.axes2)
+% imshow(image)
 
 handles.output = hObject;
 
@@ -80,7 +89,7 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 % --- Outputs from this function are returned to the command line.
-function varargout = New_Gui_OutputFcn(hObject, eventdata, handles) 
+function varargout = New_Gui_OutputFcn(hObject, eventdata, handles)
 varargout{1} = handles.output;
 
 
@@ -145,45 +154,45 @@ handles.GoToX = x;
 handles.GoToY = y;
 handles.GoToZ = z;
 
-handles.dobot.GoTo(x,y,100,0);
+handles.dobot.moveBothLocation(x,y,z);
 guidata(hObject, handles);
 
 
 % --- Executes on button press in Pos_X.
 function Pos_X_Callback(hObject, eventdata, handles)
 handles.GoToX =  handles.GoToX + handles.MoveRate;
-handles.dobot.GoTo(handles.GoToX,handles.GoToY,2,0);
+handles.dobot.moveBothLocation(handles.GoToX, handles.GoToY, handles.GoToZ);
 guidata(hObject, handles);
 
 
 % --- Executes on button press in Neg_X.
 function Neg_X_Callback(hObject, eventdata, handles)
 handles.GoToX = handles.GoToX -handles.MoveRate;
-handles.dobot.GoTo(handles.GoToX,handles.GoToY,2,0);
+handles.dobot.moveBothLocation(handles.GoToX, handles.GoToY, handles.GoToZ);
 guidata(hObject, handles);
 
 % --- Executes on button press in Neg_Y.
 function Neg_Y_Callback(hObject, eventdata, handles)
 handles.GoToY = handles.GoToY - handles.MoveRate;
-handles.dobot.GoTo(handles.GoToX,handles.GoToY,2,0);
+handles.dobot.moveBothLocation(handles.GoToX, handles.GoToY, handles.GoToZ);
 guidata(hObject, handles);
 
 % --- Executes on button press in Pos_Y.
 function Pos_Y_Callback(hObject, eventdata, handles)
 handles.GoToY = handles.GoToY + handles.MoveRate;
-handles.dobot.GoTo(handles.GoToX,handles.GoToY,2,0);
+handles.dobot.moveBothLocation(handles.GoToX, handles.GoToY, handles.GoToZ);
 guidata(hObject, handles);
 
 % --- Executes on button press in Pos_Z.
 function Pos_Z_Callback(hObject, eventdata, handles)
 handles.GoToZ = handles.GoToZ + handles.MoveRate;
-handles.dobot.GoTo(handles.GoToX,handles.GoToY,2,0);
+handles.dobot.moveBothLocation(handles.GoToX, handles.GoToY, handles.GoToZ);
 guidata(hObject, handles);
 
 % --- Executes on button press in Neg_Z.
 function Neg_Z_Callback(hObject, eventdata, handles)
 handles.GoToZ = handles.GoToZ - handles.MoveRate;
-handles.dobot.GoTo(handles.GoToX,handles.GoToY,2,0);
+handles.dobot.moveBothLocation(handles.GoToX, handles.GoToY, handles.GoToZ);
 guidata(hObject, handles);
 
 % --- Executes on button press in Estop.
@@ -197,3 +206,40 @@ function eStop_Reset_Callback(hObject, eventdata, handles)
 disp('ROBOT RESET');
 handles.dobot.eStop = false;
 guidata(hObject, handles);
+
+
+% --- Executes on button press in pushbutton10.
+function pushbutton10_Callback(hObject, eventdata, handles)
+handles.flag = 0; 
+[width,height,~] = size(handles.finalimage);                                        % sets the size of the image
+pathFinder = PathFinder();                                                  % constructor for the path finder
+pathFinder.LoadImage(handles.finalimage);                                           % loading the image into the path finder class
+pathFinder.FindPath;                                                        % find the path
+stack = pathFinder.coordStack;                                              % creating the stack of points to travel to 
+PathFollwer = PathFollow(stack, width, height, handles.dobot);              % constructor of the path follower 
+PathFollwer.DrawStack();                                                    % draws the image
+guidata(hObject, handles);
+
+
+% --- Executes on button press in togglebutton1.
+function togglebutton1_Callback(hObject, eventdata, handles)
+
+while(handles.flag)
+axes(handles.axes2);
+url = 'http://172.19.119.19:8080/shot.jpg';                                 % loads the webcam data from IP webcamm (android app)
+handles.ss  = imread(url);                                                  % loads the URL image into matlab
+fh = image(handles.ss);                                                 
+
+handles.ss  = imread(url);                                                  
+set(fh,'CData',handles.ss);
+drawnow;                                                                    % displays the image to the user
+
+axes(handles.axes3);
+
+handles.finalimage = handles.imgur.ThresholdImage(handles.ss);
+% imwrite(handles.finalimage,'image1.jpeg')
+% final = imread('image1.jpeg');
+imshow(handles.finalimage); 
+pause(0.02); 
+guidata(hObject, handles);
+end
