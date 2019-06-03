@@ -154,7 +154,7 @@ handles.GoToX = x;
 handles.GoToY = y;
 handles.GoToZ = z;
 
-handles.dobot.moveBothLocation(x,y,z);
+handles.dobot.GotoREALXYZ(x,y,z);
 guidata(hObject, handles);
 
 
@@ -215,7 +215,7 @@ handles.flag = 0;
 pathFinder = PathFinder();                                                  % constructor for the path finder
 pathFinder.LoadImage(handles.finalimage);                                           % loading the image into the path finder class
 pathFinder.FindPath;                                                        % find the path
-stack = pathFinder.coordStack;                                              % creating the stack of points to travel to 
+stack = pathFinder.coordStack;                                               % creating the stack of points to travel to 
 PathFollwer = PathFollow(stack, width, height, handles.dobot);              % constructor of the path follower 
 PathFollwer.DrawStack();                                                    % draws the image
 guidata(hObject, handles);
@@ -223,7 +223,6 @@ guidata(hObject, handles);
 
 % --- Executes on button press in togglebutton1.
 function togglebutton1_Callback(hObject, eventdata, handles)
-
 while(handles.flag)
 axes(handles.axes2);
 url = 'http://172.19.119.19:8080/shot.jpg';                                 % loads the webcam data from IP webcamm (android app)

@@ -11,8 +11,8 @@ clear
 clc
 close all;
 hold on;
-dobot = dobotClass();
-dobot.plotModel3d();
+dobot = DobotClass();
+dobot.PlotModel3d();
 Environment(dobot.model.base());
 dobot.drawingSpace(); 
 %dobot.model.teach()

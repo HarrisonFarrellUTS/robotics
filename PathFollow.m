@@ -18,9 +18,8 @@ classdef PathFollow < handle
         end
         
         function DrawStack(self)
-            sz = size(self.coordStack);
+            sz = size(self.coordStack)
             for i = 1:sz(1)
-                disp(i);
                 z = self.coordStack(i,:);
                 x = z(1);
                 y = z(2);
@@ -29,6 +28,8 @@ classdef PathFollow < handle
                     %                     self.Dobot.lift(true);
                 else
                     if(self.previouslyDrawn(x,y) == 0)
+                                        disp(i);
+
                         
                         % Size of a4 page 0.105m x 0.1485m
                         % Size fo camera  480  x  640

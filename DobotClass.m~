@@ -162,48 +162,41 @@ classdef DobotClass < handle
         end
         %% Dobot move both real & simulation
         function moveBothJoints(self, q1, q2, q3)
-            q1REAL = q1;
-            q2REAL = q2;
-            q3REAL = q3;
-            q4REAL = pi - (q2REAL + q3REAL);
-            
-            q3MODEL = pi/2 - q2REAL + q3REAL;
-            q4MODEL = pi - (q2REAL + q3MODEL);
-            q5MODEL = 0; 
-            
-            qMoveMODEL = [q1REAL,q2REAL,q3MODEL,q4MODEL, q5MODEL];
-            qMoveREAL = [q1REAL, q2REAL, q3REAL, q4REAL];
-            
-%             jangsvc_ = rossvcclient('/dobot_magician/PTP/set_joint_angles');
-%             jangmsg_ = rosmessage(jangsvc_);
-%             jangmsg_.TargetPoints = qMoveREAL;
-%             jangsvc_.call(jangmsg_);
-            
-            self.model.animate(qMoveMODEL);
-            drawnow();
+            if(self.eStop == false)
+                q1REAL = q1;
+                q2REAL = q2;
+                q3REAL = q3;
+                q4REAL = pi - (q2REAL + q3REAL);
+                
+                q3MODEL = pi/2 - q2REAL + q3REAL;
+                q4MODEL = pi - (q2REAL + q3MODEL);
+                q5MODEL = 0;
+                
+                qMoveMODEL = [q1REAL,q2REAL,q3MODEL,q4MODEL, q5MODEL];
+                qMoveREAL = [q1REAL, q2REAL, q3REAL, q4REAL];                
+                
+                self.model.animate(qMoveMODEL);
+                drawnow();
+            end
         end
         
         %% Dobot move both real & simulation
         function moveBothLocation(self, x,y,z)
-            location = transl(x,y,z); 
-            robotJoints = self.model.getpos();
-            newJoints = self.model.ikcon(location);
-            jointMatrix = self.CalculateTrajectory(robotJoints, newJoints, 50);
-            
-%             cartsvc_ = rossvcclient('/dobot_magician/PTP/set_cartesian_pos');
-%             cartmsg_ = rosmessage(cartsvc_);
-%             cartmsg_.TargetPoints=[x,y,z,0];
-%             cartsvc_.call(cartmsg_)
-            
-            for i = 1:50
-                self.Stopcheck();
-                jointMatrix(i,5) = 0;
-                self.model.animate(jointMatrix(i,:));
-                pause(0.02);
-                self.Stopcheck();
+            if(self.eStop == false)
+                location = transl(x,y,z);
+                robotJoints = self.model.getpos();
+                newJoints = self.model.ikcon(location);
+                
+                cartsvc_ = rossvcclient('/dobot_magician/PTP/set_cartesian_pos');
+                cartmsg_.TargetPoints=[x,y,z,0];
+                cartmsg_ = rosmessage(cartsvc_);
+                cartmsg_.TargetPoints=[x,y,z,0];
+                cartsvc_.call(cartmsg_)
+                
+                self.model.animate(newJoints);
+                drawnow();
             end
         end
-        
         %% draw box
         function drawBox(self)
             for i = -0.2:0.005:0.2
@@ -275,6 +268,20 @@ classdef DobotClass < handle
             cartsvc_.call(cartmsg_)
             
         end
+        
+        %%
+        function    GotoREALXYZ(self,x,y,z)
+            cartsvc_ = rossvcclient('/dobot_magician/PTP/set_cartesian_pos');
+            cartmsg_ = rosmessage(cartsvc_);
+            if(self.draw == true)
+                cartmsg_.TargetPoints=[x,y,z,0];
+            else
+                cartmsg_.TargetPoints=[x,y,-0.05,0];
+            end
+            cartsvc_.call(cartmsg_)
+            
+        end
+        
         
         %% draw animation
         function DrawingSpace(self)
