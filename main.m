@@ -14,7 +14,7 @@ hold on;
 dobot = DobotClass();
 dobot.PlotModel3d();
 Environment(dobot.model.base());
-dobot.drawingSpace(); 
+dobot.DrawingSpace(); 
 %dobot.model.teach()
 %% lift & lower the arm
 dobot.lift(true);
